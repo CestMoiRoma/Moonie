@@ -11,6 +11,10 @@ const nav = [
   { to: "/settings", label: "Welcome & Roles", icon: "⚙️" },
   { to: "/moderation", label: "Moderation", icon: "🛡️" },
   { to: "/roles", label: "Role Add", icon: "🎨" },
+  { to: "/permissions", label: "Permissions", icon: "🔑" },
+  { to: "/reaction-roles", label: "Reaction Roles", icon: "✨" },
+  { to: "/embeds", label: "Embeds", icon: "📋" },
+  { to: "/autoban", label: "Auto-Ban", icon: "🚫" },
 ];
 
 onMounted(async () => {

@@ -80,14 +80,14 @@ npm run dev
 ## Roadmap
 
 ### v1 — in progress
-- [ ] **Scaffold** — Docker, FastAPI + discord.py wiring, SQLite + Alembic, Vue/Vite shell
-- [ ] **Moderation** — kick / ban / mute / warn + audit log
-- [ ] **Welcome / goodbye + autoroles**
-- [ ] **Role management** — `role_add` (aesthetic role, auto-create if missing)
-- [ ] **Command permission system** — per-command role/user access control
-- [ ] **Reaction roles** — emoji *and* button modes
-- [ ] **Embed builder** — DraftBot-style visual composer
-- [ ] **Auto-ban from DB** — global banlist + on-join enforcement
+- [x] **Scaffold** — Docker, FastAPI + discord.py wiring, SQLite + Alembic, Vue/Vite shell
+- [x] **Moderation** — kick / ban / mute / warn + audit log
+- [x] **Welcome / goodbye + autoroles**
+- [x] **Role management** — `role_add` (aesthetic role, auto-create if missing)
+- [x] **Command permission system** — per-command role/user access control
+- [x] **Reaction roles** — emoji *and* button modes
+- [x] **Embed builder** — DraftBot-style visual composer
+- [x] **Auto-ban from DB** — global banlist + on-join enforcement
 - [ ] **Groups** — bundle roles + channels for bulk targeting
 - [ ] **Bulk channel permission manager** — target channels/categories or a Group
 - [ ] **Custom forms** — Discord modals

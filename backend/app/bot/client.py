@@ -8,6 +8,8 @@ import pkgutil
 import discord
 from discord.ext import commands
 
+from app.bot.reaction_role_views import RoleButton
+from app.bot.tree import MoonieCommandTree
 from app.config import get_settings
 
 log = logging.getLogger("moonie.bot")
@@ -35,10 +37,14 @@ class MoonieBot(commands.Bot):
             command_prefix=settings.prefix,
             intents=build_intents(),
             help_command=None,
+            tree_cls=MoonieCommandTree,
         )
         self.settings = settings
 
     async def setup_hook(self) -> None:
+        # Persistent button-mode reaction roles (works across restarts).
+        self.add_dynamic_items(RoleButton)
+
         await self._load_cogs()
 
         # Sync slash commands. Scoped to GUILD_ID syncs instantly; otherwise global.

@@ -53,6 +53,55 @@ export interface ModAction {
   created_at: string;
 }
 
+export interface CommandPermission {
+  command: string;
+  allowed_role_ids: string[];
+  allowed_user_ids: string[];
+}
+
+export interface RREntry {
+  role_id: string;
+  emoji: string | null;
+  label: string | null;
+}
+
+export interface ReactionRoleMessage {
+  id: number;
+  guild_id: string;
+  channel_id: string;
+  message_id: string | null;
+  mode: "emoji" | "button";
+  title: string | null;
+  description: string | null;
+  entries: RREntry[];
+}
+
+export interface EmbedField {
+  name: string;
+  value: string;
+  inline: boolean;
+}
+
+export interface EmbedTemplate {
+  id: number;
+  guild_id: string;
+  name: string;
+  title: string | null;
+  description: string | null;
+  color: number | null;
+  fields: EmbedField[];
+  footer: string | null;
+  image_url: string | null;
+  thumbnail_url: string | null;
+}
+
+export interface GlobalBan {
+  user_id: string;
+  reason: string | null;
+  added_by: string | null;
+  created_at: string;
+}
+
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -120,5 +169,67 @@ export const api = {
     request<{ message: string }>(`/roles/${guildId}/add`, {
       method: "POST",
       body: JSON.stringify({ member_id: memberId, role_name: roleName }),
+    }),
+
+  // Command permissions
+  commandList: () => request<string[]>("/permissions/commands"),
+  permissions: (guildId: string) => request<CommandPermission[]>(`/permissions/${guildId}`),
+  setPermission: (
+    guildId: string,
+    command: string,
+    body: { allowed_role_ids: number[]; allowed_user_ids: number[] },
+  ) =>
+    request<CommandPermission>(`/permissions/${guildId}/${command}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  // Reaction roles
+  reactionRoles: (guildId: string) =>
+    request<ReactionRoleMessage[]>(`/reaction-roles/${guildId}`),
+  createReactionRole: (guildId: string, body: Record<string, unknown>) =>
+    request<ReactionRoleMessage>(`/reaction-roles/${guildId}`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  deleteReactionRole: (guildId: string, id: number) =>
+    request<void>(`/reaction-roles/${guildId}/${id}`, { method: "DELETE" }),
+  publishReactionRole: (guildId: string, id: number) =>
+    request<ReactionRoleMessage>(`/reaction-roles/${guildId}/${id}/publish`, {
+      method: "POST",
+    }),
+
+  // Embeds
+  embeds: (guildId: string) => request<EmbedTemplate[]>(`/embeds/${guildId}`),
+  createEmbed: (guildId: string, body: Record<string, unknown>) =>
+    request<EmbedTemplate>(`/embeds/${guildId}`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  updateEmbed: (guildId: string, id: number, body: Record<string, unknown>) =>
+    request<EmbedTemplate>(`/embeds/${guildId}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+  deleteEmbed: (guildId: string, id: number) =>
+    request<void>(`/embeds/${guildId}/${id}`, { method: "DELETE" }),
+  sendEmbed: (guildId: string, id: number, channelId: string) =>
+    request<void>(`/embeds/${guildId}/${id}/send?channel_id=${channelId}`, {
+      method: "POST",
+    }),
+
+  // Auto-ban
+  bans: () => request<GlobalBan[]>("/autoban"),
+  addBan: (userId: number, reason: string | null) =>
+    request<GlobalBan>("/autoban", {
+      method: "POST",
+      body: JSON.stringify({ user_id: userId, reason }),
+    }),
+  removeBan: (userId: string) =>
+    request<void>(`/autoban/${userId}`, { method: "DELETE" }),
+  importBans: (userIds: number[], reason: string | null) =>
+    request<{ added: number; skipped: number }>("/autoban/import", {
+      method: "POST",
+      body: JSON.stringify({ user_ids: userIds, reason }),
     }),
 };

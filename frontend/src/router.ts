@@ -5,6 +5,10 @@ const routes = [
   { path: "/settings", name: "settings", component: () => import("./views/SettingsView.vue") },
   { path: "/moderation", name: "moderation", component: () => import("./views/ModerationView.vue") },
   { path: "/roles", name: "roles", component: () => import("./views/RolesView.vue") },
+  { path: "/permissions", name: "permissions", component: () => import("./views/PermissionsView.vue") },
+  { path: "/reaction-roles", name: "reaction-roles", component: () => import("./views/ReactionRolesView.vue") },
+  { path: "/embeds", name: "embeds", component: () => import("./views/EmbedsView.vue") },
+  { path: "/autoban", name: "autoban", component: () => import("./views/AutoBanView.vue") },
 ];
 
 export const router = createRouter({
