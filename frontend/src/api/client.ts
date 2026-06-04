@@ -172,6 +172,21 @@ export interface AutomodRule {
   enabled: boolean;
 }
 
+export interface ApiKey {
+  id: number;
+  name: string;
+  key_prefix: string;
+  scopes: string[];
+  guild_id: string | null;
+  enabled: boolean;
+  last_used_at: string | null;
+  created_at: string;
+}
+
+export interface ApiKeyCreated extends ApiKey {
+  key: string; // plaintext, shown once
+}
+
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -365,4 +380,13 @@ export const api = {
     request<AutomodRule>(`/automod/${guildId}/${id}`, { method: "PUT", body: JSON.stringify(body) }),
   deleteAutomodRule: (guildId: string, id: number) =>
     request<void>(`/automod/${guildId}/${id}`, { method: "DELETE" }),
+
+  // External API keys
+  apiKeyScopes: () => request<string[]>("/api-keys/scopes"),
+  apiKeys: () => request<ApiKey[]>("/api-keys"),
+  createApiKey: (body: { name: string; scopes: string[]; guild_id: number | null }) =>
+    request<ApiKeyCreated>("/api-keys", { method: "POST", body: JSON.stringify(body) }),
+  updateApiKey: (id: number, body: Record<string, unknown>) =>
+    request<ApiKey>(`/api-keys/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
+  deleteApiKey: (id: number) => request<void>(`/api-keys/${id}`, { method: "DELETE" }),
 };

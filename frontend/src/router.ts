@@ -15,6 +15,7 @@ const routes = [
   { path: "/user-logging", name: "user-logging", component: () => import("./views/UserLoggingView.vue") },
   { path: "/custom-commands", name: "custom-commands", component: () => import("./views/CustomCommandsView.vue") },
   { path: "/automod", name: "automod", component: () => import("./views/AutomodView.vue") },
+  { path: "/api-keys", name: "api-keys", component: () => import("./views/ApiKeysView.vue") },
 ];
 
 export const router = createRouter({

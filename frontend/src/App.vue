@@ -21,6 +21,7 @@ const nav = [
   { to: "/user-logging", label: "User Logging", icon: "🔍" },
   { to: "/custom-commands", label: "Custom Commands", icon: "💬" },
   { to: "/automod", label: "Automod", icon: "🤖" },
+  { to: "/api-keys", label: "API Keys", icon: "🗝️" },
 ];
 
 onMounted(async () => {

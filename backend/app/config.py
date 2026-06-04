@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     # ── Database ─────────────────────────────────────────────────────────────
     database_url: str = "sqlite+aiosqlite:///./data/moonie.db"
 
+    # ── External HTTP API (Phase 3.5) ────────────────────────────────────────
+    external_api_enabled: bool = True
+    external_rate_limit_per_min: int = 60
+
     # ── Misc ─────────────────────────────────────────────────────────────────
     log_level: str = "INFO"
 

@@ -18,6 +18,7 @@ from app import __version__
 from app.api.routes import api_router
 from app.bot.client import MoonieBot
 from app.config import get_settings
+from app.external.app import external_app
 
 settings = get_settings()
 logging.basicConfig(
@@ -41,6 +42,8 @@ async def _run_bot(bot: MoonieBot, token: str) -> None:
 async def lifespan(app: FastAPI):
     bot = MoonieBot()
     app.state.bot = bot
+    # Sub-app lifespans don't run when mounted, so share the bot via its state too.
+    external_app.state.bot = bot
 
     if settings.has_token:
         app.state.bot_task = asyncio.create_task(_run_bot(bot, settings.discord_token))
@@ -64,6 +67,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Moonie", version=__version__, lifespan=lifespan)
 app.include_router(api_router)
+
+# ── External HTTP API (Phase 3.5) ────────────────────────────────────────────────
+# Mounted BEFORE the SPA catch-all so /external/* isn't shadowed by it.
+if settings.external_api_enabled:
+    app.mount("/external", external_app)
 
 
 # ── Serve the built Vue SPA (if present) ─────────────────────────────────────────
