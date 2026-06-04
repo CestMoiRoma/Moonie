@@ -154,6 +154,24 @@ export interface FlaggedUser {
   created_at: string;
 }
 
+export interface CustomCommand {
+  id: number;
+  guild_id: string;
+  name: string;
+  response: string;
+  embed_id: number | null;
+}
+
+export interface AutomodRule {
+  id: number;
+  guild_id: string;
+  name: string;
+  pattern: string;
+  kind: "word" | "link" | "regex";
+  action: "delete" | "warn";
+  enabled: boolean;
+}
+
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -322,4 +340,29 @@ export const api = {
     }),
   unflagUser: (guildId: string, userId: string) =>
     request<void>(`/user-logging/${guildId}/${userId}`, { method: "DELETE" }),
+
+  // Custom commands
+  customCommands: (guildId: string) =>
+    request<CustomCommand[]>(`/custom-commands/${guildId}`),
+  createCustomCommand: (guildId: string, body: Record<string, unknown>) =>
+    request<CustomCommand>(`/custom-commands/${guildId}`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  updateCustomCommand: (guildId: string, id: number, body: Record<string, unknown>) =>
+    request<CustomCommand>(`/custom-commands/${guildId}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+  deleteCustomCommand: (guildId: string, id: number) =>
+    request<void>(`/custom-commands/${guildId}/${id}`, { method: "DELETE" }),
+
+  // Automod
+  automodRules: (guildId: string) => request<AutomodRule[]>(`/automod/${guildId}`),
+  createAutomodRule: (guildId: string, body: Record<string, unknown>) =>
+    request<AutomodRule>(`/automod/${guildId}`, { method: "POST", body: JSON.stringify(body) }),
+  updateAutomodRule: (guildId: string, id: number, body: Record<string, unknown>) =>
+    request<AutomodRule>(`/automod/${guildId}/${id}`, { method: "PUT", body: JSON.stringify(body) }),
+  deleteAutomodRule: (guildId: string, id: number) =>
+    request<void>(`/automod/${guildId}/${id}`, { method: "DELETE" }),
 };

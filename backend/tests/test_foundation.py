@@ -5,6 +5,8 @@ from __future__ import annotations
 import httpx
 import pytest
 
+from app.bot.cogs.automod import CompiledRule
+from app.db.models import AutomodRule
 from app.main import app
 from app.services.templating import DEFAULT_WELCOME, render_message
 
@@ -27,6 +29,35 @@ def test_default_welcome_renders_without_leftover_tokens():
     }
     out = render_message(DEFAULT_WELCOME, ctx)
     assert "{" not in out and "}" not in out
+
+
+def _rule(kind: str, pattern: str) -> CompiledRule:
+    return CompiledRule(AutomodRule(name="r", kind=kind, pattern=pattern, action="delete"))
+
+
+def test_automod_word_matches_whole_word_only():
+    rule = _rule("word", "spam")
+    assert rule.matches("this is SPAM here")
+    assert not rule.matches("spamming is different")  # word boundary
+
+
+def test_automod_link_blocks_any_or_specific():
+    any_link = _rule("link", "")
+    assert any_link.matches("check http://example.com")
+    assert not any_link.matches("no links here")
+
+    specific = _rule("link", "discord.gg")
+    assert specific.matches("join https://discord.gg/abc")
+    assert not specific.matches("visit https://example.com")
+
+
+def test_automod_regex_and_invalid_regex():
+    rule = _rule("regex", r"\d{4,}")
+    assert rule.matches("code 12345")
+    assert not rule.matches("only 12")
+
+    broken = _rule("regex", "(")  # invalid → disabled, never matches
+    assert not broken.matches("anything (")
 
 
 @pytest.mark.asyncio

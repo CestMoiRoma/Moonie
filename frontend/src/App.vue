@@ -19,6 +19,8 @@ const nav = [
   { to: "/bulk-permissions", label: "Bulk Perms", icon: "🔧" },
   { to: "/forms", label: "Forms", icon: "📝" },
   { to: "/user-logging", label: "User Logging", icon: "🔍" },
+  { to: "/custom-commands", label: "Custom Commands", icon: "💬" },
+  { to: "/automod", label: "Automod", icon: "🤖" },
 ];
 
 onMounted(async () => {

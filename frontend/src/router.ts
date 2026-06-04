@@ -13,6 +13,8 @@ const routes = [
   { path: "/bulk-permissions", name: "bulk-permissions", component: () => import("./views/BulkPermissionsView.vue") },
   { path: "/forms", name: "forms", component: () => import("./views/FormsView.vue") },
   { path: "/user-logging", name: "user-logging", component: () => import("./views/UserLoggingView.vue") },
+  { path: "/custom-commands", name: "custom-commands", component: () => import("./views/CustomCommandsView.vue") },
+  { path: "/automod", name: "automod", component: () => import("./views/AutomodView.vue") },
 ];
 
 export const router = createRouter({

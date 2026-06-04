@@ -4,7 +4,9 @@ from fastapi import APIRouter
 
 from app.api.routes import (
     autoban,
+    automod,
     bulk_permissions,
+    custom_commands,
     embeds,
     forms,
     groups,
@@ -34,3 +36,5 @@ api_router.include_router(groups.router)
 api_router.include_router(bulk_permissions.router)
 api_router.include_router(forms.router)
 api_router.include_router(user_logging.router)
+api_router.include_router(custom_commands.router)
+api_router.include_router(automod.router)

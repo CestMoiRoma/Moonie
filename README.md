@@ -79,7 +79,7 @@ npm run dev
 
 ## Roadmap
 
-### v1 — in progress
+### v1 — feature-complete (auth deferred to Phase 4)
 - [x] **Scaffold** — Docker, FastAPI + discord.py wiring, SQLite + Alembic, Vue/Vite shell
 - [x] **Moderation** — kick / ban / mute / warn + audit log
 - [x] **Welcome / goodbye + autoroles**
@@ -92,7 +92,7 @@ npm run dev
 - [x] **Bulk channel permission manager** — target channels/categories or a Group
 - [x] **Custom forms** — Discord modals
 - [x] **Per-user logging** — ticket-style per-user log channels in a dedicated category
-- [ ] **Custom text commands + basic automod**
+- [x] **Custom text commands + basic automod**
 - [ ] **Dashboard auth** *(Phase 4 — deferred; local-driven first)*
 
 ### Planned / later
