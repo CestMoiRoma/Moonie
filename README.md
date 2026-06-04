@@ -88,10 +88,10 @@ npm run dev
 - [x] **Reaction roles** — emoji *and* button modes
 - [x] **Embed builder** — DraftBot-style visual composer
 - [x] **Auto-ban from DB** — global banlist + on-join enforcement
-- [ ] **Groups** — bundle roles + channels for bulk targeting
-- [ ] **Bulk channel permission manager** — target channels/categories or a Group
-- [ ] **Custom forms** — Discord modals
-- [ ] **Per-user logging** — ticket-style per-user log channels in a dedicated category
+- [x] **Groups** — bundle roles + channels for bulk targeting
+- [x] **Bulk channel permission manager** — target channels/categories or a Group
+- [x] **Custom forms** — Discord modals
+- [x] **Per-user logging** — ticket-style per-user log channels in a dedicated category
 - [ ] **Custom text commands + basic automod**
 - [ ] **Dashboard auth** *(Phase 4 — deferred; local-driven first)*
 

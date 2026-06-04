@@ -102,6 +102,58 @@ export interface GlobalBan {
   created_at: string;
 }
 
+export interface GroupItem {
+  kind: "role" | "channel";
+  discord_id: string;
+}
+
+export interface Group {
+  id: number;
+  guild_id: string;
+  name: string;
+  description: string | null;
+  items: GroupItem[];
+}
+
+export interface BulkResult {
+  applied: number;
+  failed: number;
+  results: { channel_id: string; channel_name: string; ok: boolean; error: string | null }[];
+}
+
+export interface FormField {
+  label: string;
+  style: "short" | "paragraph";
+  required: boolean;
+  placeholder: string | null;
+  position?: number;
+}
+
+export interface FormTemplate {
+  id: number;
+  guild_id: string;
+  name: string;
+  title: string;
+  submit_channel_id: string | null;
+  fields: FormField[];
+}
+
+export interface FormSubmission {
+  id: number;
+  user_id: string;
+  answers: Record<string, string>;
+  created_at: string;
+}
+
+export interface FlaggedUser {
+  id: number;
+  user_id: string;
+  reason: string | null;
+  log_channel_id: string | null;
+  active: boolean;
+  created_at: string;
+}
+
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -232,4 +284,42 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ user_ids: userIds, reason }),
     }),
+
+  // Groups
+  groups: (guildId: string) => request<Group[]>(`/groups/${guildId}`),
+  createGroup: (guildId: string, body: Record<string, unknown>) =>
+    request<Group>(`/groups/${guildId}`, { method: "POST", body: JSON.stringify(body) }),
+  updateGroup: (guildId: string, id: number, body: Record<string, unknown>) =>
+    request<Group>(`/groups/${guildId}/${id}`, { method: "PUT", body: JSON.stringify(body) }),
+  deleteGroup: (guildId: string, id: number) =>
+    request<void>(`/groups/${guildId}/${id}`, { method: "DELETE" }),
+
+  // Bulk permissions
+  supportedPermissions: () => request<string[]>("/bulk-permissions/permissions"),
+  applyBulkPermissions: (guildId: string, body: Record<string, unknown>) =>
+    request<BulkResult>(`/bulk-permissions/${guildId}/apply`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  // Forms
+  forms: (guildId: string) => request<FormTemplate[]>(`/forms/${guildId}`),
+  createForm: (guildId: string, body: Record<string, unknown>) =>
+    request<FormTemplate>(`/forms/${guildId}`, { method: "POST", body: JSON.stringify(body) }),
+  updateForm: (guildId: string, id: number, body: Record<string, unknown>) =>
+    request<FormTemplate>(`/forms/${guildId}/${id}`, { method: "PUT", body: JSON.stringify(body) }),
+  deleteForm: (guildId: string, id: number) =>
+    request<void>(`/forms/${guildId}/${id}`, { method: "DELETE" }),
+  submissions: (guildId: string, id: number) =>
+    request<FormSubmission[]>(`/forms/${guildId}/${id}/submissions`),
+
+  // Per-user logging
+  flagged: (guildId: string) => request<FlaggedUser[]>(`/user-logging/${guildId}`),
+  flagUser: (guildId: string, userId: number, reason: string | null) =>
+    request<FlaggedUser>(`/user-logging/${guildId}`, {
+      method: "POST",
+      body: JSON.stringify({ user_id: userId, reason }),
+    }),
+  unflagUser: (guildId: string, userId: string) =>
+    request<void>(`/user-logging/${guildId}/${userId}`, { method: "DELETE" }),
 };

@@ -15,6 +15,10 @@ const nav = [
   { to: "/reaction-roles", label: "Reaction Roles", icon: "✨" },
   { to: "/embeds", label: "Embeds", icon: "📋" },
   { to: "/autoban", label: "Auto-Ban", icon: "🚫" },
+  { to: "/groups", label: "Groups", icon: "🗂️" },
+  { to: "/bulk-permissions", label: "Bulk Perms", icon: "🔧" },
+  { to: "/forms", label: "Forms", icon: "📝" },
+  { to: "/user-logging", label: "User Logging", icon: "🔍" },
 ];
 
 onMounted(async () => {

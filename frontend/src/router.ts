@@ -9,6 +9,10 @@ const routes = [
   { path: "/reaction-roles", name: "reaction-roles", component: () => import("./views/ReactionRolesView.vue") },
   { path: "/embeds", name: "embeds", component: () => import("./views/EmbedsView.vue") },
   { path: "/autoban", name: "autoban", component: () => import("./views/AutoBanView.vue") },
+  { path: "/groups", name: "groups", component: () => import("./views/GroupsView.vue") },
+  { path: "/bulk-permissions", name: "bulk-permissions", component: () => import("./views/BulkPermissionsView.vue") },
+  { path: "/forms", name: "forms", component: () => import("./views/FormsView.vue") },
+  { path: "/user-logging", name: "user-logging", component: () => import("./views/UserLoggingView.vue") },
 ];
 
 export const router = createRouter({
