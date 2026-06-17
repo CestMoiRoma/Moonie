@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Environment / secrets
+.env
+
+# Data & logs (persisted volume contents)
+data/
+*.db
+*.db-journal
+logs/
+*.log
+
+# Node / Vue
+node_modules/
+frontend/dist/
+.vite/
+*.tsbuildinfo
+# Emitted by `vue-tsc -b` (composite project build) — not source
+frontend/vite.config.js
+frontend/vite.config.d.ts
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

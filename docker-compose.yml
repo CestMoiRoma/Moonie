@@ -1,0 +1,16 @@
+services:
+  moonie:
+    build: .
+    container_name: moonie
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      # Host:Container. Keep the host side bound to your LAN only.
+      - "${BIND_PORT:-8080}:8080"
+    volumes:
+      # Persist the SQLite database and logs across restarts/rebuilds.
+      - ./data:/app/data
+      - ./logs:/app/logs
+    # DATABASE_URL points at the mounted volume; override in .env if needed.
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-sqlite+aiosqlite:////app/data/moonie.db}
